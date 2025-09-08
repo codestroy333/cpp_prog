@@ -3,6 +3,7 @@
 #include <vector>
 #include <cctype>
 #include <iomanip>
+#include <algorithm>
 #define length 1000
 
 using namespace std;
@@ -112,6 +113,9 @@ int main() {
     for (int i = 0; i < size(words); i++) {
         words[i].present = ((float(words[i].count) / COUNT) * 100);
     }
+    sort(words.begin(), words.end(), [](const frequency& a, const frequency& b) { 
+        return a.count > b.count;
+    });
     for (int i = 0; i < size(words); i++) {
         file2 << setprecision(3) << words[i].word << "," << words[i].count << "," << words[i].present << endl;
     }
