@@ -1,7 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#define length 1
+#include <cctype>
+#include <iomanip>
+#define length 1000
 
 using namespace std;
 
@@ -15,7 +17,7 @@ public:
 
     int count;
 
-    int present;
+    float present;
 
 };
 
@@ -35,7 +37,15 @@ circlebuff buffer(circlebuff *a) {
     return *a;
 }
 
-
+string clear_word(string word) {
+    string new_word;
+    for (char c : word) {
+        if(!ispunct(static_cast<unsigned char>(c))) {
+            new_word += c;
+        }
+    }
+    return new_word;
+}
 
 int main() {
     vector<frequency> words;
@@ -53,10 +63,10 @@ int main() {
     file2 << "word" << "," << "count" << "," << "present" << endl; 
     string word;
     while (file >> word) {
+        word = clear_word(word);
         buff.text[buff.start] = word;
         buff.start++;
         if (buff.start == length) {
-            flag:
             for (int i = 0; i < buff.start; i++) {
             frequency object;
             int a = 0;
@@ -82,14 +92,28 @@ int main() {
         }
     }
     if (!buff.text->empty()) {
-        cout << sizeof(buff.text) << endl;
-        goto flag;
+        for (int i = 0; i < buff.start; i++) {
+            frequency object;
+            int a = 0;
+            COUNT++;
+                for (int j = 0; j <= size(words); j++)
+                if (size(words) != 0 && buff.text[i] == words[j].word) {
+                    words[j].count++;
+                    a++;
+                }
+            if (a == 0) {
+                object.word = buff.text[i];
+                object.count = 1;
+                object.present = 0;
+                words.push_back(object);
+            }
+        }
     }
     for (int i = 0; i < size(words); i++) {
-        words[i].present = (float(words[i].count) / COUNT) * 100;
+        words[i].present = ((float(words[i].count) / COUNT) * 100);
     }
     for (int i = 0; i < size(words); i++) {
-        file2 << words[i].word << "," << words[i].count << "," << words[i].present << endl;
+        file2 << setprecision(3) << words[i].word << "," << words[i].count << "," << words[i].present << endl;
     }
     delete [] buff.text;
     buff.text = nullptr;
