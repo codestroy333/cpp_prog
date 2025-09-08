@@ -33,6 +33,8 @@ public:
 };
 
 circlebuff buffer(circlebuff *a) {
+    delete [] a->text;
+    a->text = nullptr;
     a->text = new string[length];
     a->start = 0;
     return *a;
@@ -97,7 +99,7 @@ int main() {
             frequency object;
             int a = 0;
             COUNT++;
-                for (int j = 0; j <= size(words); j++)
+                for (int j = 0; j < size(words); j++)
                 if (size(words) != 0 && buff.text[i] == words[j].word) {
                     words[j].count++;
                     a++;
