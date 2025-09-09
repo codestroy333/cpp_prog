@@ -50,7 +50,16 @@ string clear_word(string word) {
     return new_word;
 }
 
+string lower(string word) {
+    string res;
+    for (char c : word) {
+        res += tolower((c));
+    }
+    return res;
+}
+
 int main() {
+    setlocale(LC_ALL, "Rus");
     vector<frequency> words;
     circlebuff buff;
     buff.text = new string[length];
@@ -67,6 +76,7 @@ int main() {
     string word;
     while (file >> word) {
         word = clear_word(word);
+        word = lower(word);
         buff.text[buff.start] = word;
         buff.start++;
         if (buff.start == length) {
