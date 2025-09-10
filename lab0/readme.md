@@ -1,1 +1,1 @@
-1
+It my first С++ lab 
